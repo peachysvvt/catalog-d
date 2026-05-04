@@ -2,6 +2,7 @@
 
 let _autofillTimer = null;
 let _toastTimer = null;
+let _bulkCloseTimer = null;
 
 async function init() {
   if ('serviceWorker' in navigator) {
@@ -104,9 +105,12 @@ function _bindEvents() {
     const text = document.getElementById('bulk-textarea').value;
     const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
     if (!lines.length) { _closeBulkAdd(); return; }
-    const added = await bulkAdd(lines);
+    const { added, failed } = await bulkAdd(lines);
     _closeBulkAdd();
-    _showToast(`Added ${added} item${added !== 1 ? 's' : ''}`);
+    const msg = failed > 0
+      ? `Added ${added}, ${failed} failed`
+      : `Added ${added} item${added !== 1 ? 's' : ''}`;
+    _showToast(msg);
   });
 
   // Close detail overlay
@@ -122,6 +126,7 @@ function _bindEvents() {
 }
 
 function _openBulkAdd() {
+  clearTimeout(_bulkCloseTimer);
   const overlay = document.getElementById('bulk-overlay');
   overlay.classList.remove('hidden');
   requestAnimationFrame(() => overlay.classList.add('visible'));
@@ -133,7 +138,7 @@ function _closeBulkAdd() {
   const overlay = document.getElementById('bulk-overlay');
   if (overlay.classList.contains('hidden')) return;
   overlay.classList.remove('visible');
-  setTimeout(() => overlay.classList.add('hidden'), 250);
+  _bulkCloseTimer = setTimeout(() => overlay.classList.add('hidden'), 250);
 }
 
 function _showToast(msg) {

@@ -232,6 +232,21 @@ textarea {
   color: var(--bg);
 }
 
+.clear-filters-btn {
+  padding: 3px 10px;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  letter-spacing: 0.01em;
+  transition: all 0.1s;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+
+.clear-filters-btn:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
 /* ---- SORT BAR ---- */
 
 #sort-bar {

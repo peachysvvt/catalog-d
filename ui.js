@@ -142,6 +142,27 @@ function renderFilters() {
   _renderRatingFilters();
   _renderTagFilters();
   _renderConditionalFilters();
+  _renderClearFilters();
+}
+
+function _renderClearFilters() {
+  const existing = document.getElementById('clear-filters-btn');
+  if (hasActiveFilters()) {
+    if (!existing) {
+      const btn = document.createElement('button');
+      btn.id = 'clear-filters-btn';
+      btn.className = 'clear-filters-btn';
+      btn.textContent = 'Clear filters';
+      btn.addEventListener('click', () => {
+        resetFilters();
+        renderFilters();
+        renderList();
+      });
+      document.getElementById('filter-bar').appendChild(btn);
+    }
+  } else {
+    if (existing) existing.remove();
+  }
 }
 
 function _renderStatusFilters() {
@@ -429,29 +450,34 @@ async function createItemFromTitle(title, image = '') {
 
 async function bulkAdd(titles) {
   let added = 0;
+  let failed = 0;
   for (const title of titles) {
-    const already = await exists(_lib, title);
-    if (already) continue;
-    const item = {
-      id: generateId(),
-      title,
-      image: '',
-      status: defaultStatus(_lib),
-      rating: null,
-      tags: [],
-      notes: ''
-    };
-    if (_lib === 'books' || _lib === 'games') item.ownership = 'Unset';
-    if (_lib === 'restaurants') item.cuisine = [];
-    await addItem(_lib, item);
-    _items.push(item);
-    added++;
+    try {
+      const already = await exists(_lib, title);
+      if (already) continue;
+      const item = {
+        id: generateId(),
+        title,
+        image: '',
+        status: defaultStatus(_lib),
+        rating: null,
+        tags: [],
+        notes: ''
+      };
+      if (_lib === 'books' || _lib === 'games') item.ownership = 'Unset';
+      if (_lib === 'restaurants') item.cuisine = [];
+      await addItem(_lib, item);
+      _items.push(item);
+      added++;
+    } catch {
+      failed++;
+    }
   }
   if (added > 0) {
     renderList();
     renderFilters();
   }
-  return added;
+  return { added, failed };
 }
 
 // ---- SEARCH ----
