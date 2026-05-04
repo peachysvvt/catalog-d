@@ -1,0 +1,48 @@
+/* ============================================================
+   THEME VARIABLES
+   --accent is set dynamically by JS (theme.js) per library
+   ============================================================ */
+
+/* ---- PINK THEME (day) ---- */
+body.theme-pink {
+  --bg:           #fafafa;
+  --surface:      #f2f2f2;
+  --surface-panel:#ffffff;
+  --text:         #1a1a1a;
+  --text-dim:     rgba(26, 26, 26, 0.48);
+  --border:       #e0e0e0;
+  --overlay-bg:   rgba(0, 0, 0, 0.28);
+  --accent:       #d08080; /* default, overridden by JS */
+}
+
+/* ---- BLUE THEME (night) ---- */
+body.theme-blue {
+  --bg:           #0d0f18;
+  --surface:      #141724;
+  --surface-panel:#161a28;
+  --text:         #dde0ea;
+  --text-dim:     rgba(221, 224, 234, 0.45);
+  --border:       #222538;
+  --overlay-bg:   rgba(0, 0, 0, 0.62);
+  --accent:       #7aaad8; /* default, overridden by JS */
+}
+
+/* ============================================================
+   LIBRARY ACCENT COLORS
+   Applied to --accent via JS (theme.js accentFor())
+   Listed here for reference — not used as CSS selectors.
+
+   PINK THEME:
+     shows       → #d08080   soft rose
+     movies      → #c88060   coral
+     books       → #a888c0   lavender-pink
+     games       → #c050a0   magenta
+     restaurants → #c8a060   peach
+
+   BLUE THEME:
+     shows       → #6aabdc   light blue
+     movies      → #4468c0   deep blue
+     books       → #6878c8   indigo
+     games       → #38c8d8   cyan
+     restaurants → #3a9090   teal
+   ============================================================ */

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Catalog'd</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles/base.css">
+  <link rel="stylesheet" href="styles/theme.css">
+</head>
+<body class="theme-pink">
+  <div id="app">
+
+    <header id="header">
+      <span id="app-title">Catalog'd</span>
+      <button id="theme-toggle">Theme</button>
+    </header>
+
+    <nav id="tabs">
+      <button class="tab active" data-lib="shows">Shows</button>
+      <button class="tab" data-lib="movies">Movies</button>
+      <button class="tab" data-lib="books">Books</button>
+      <button class="tab" data-lib="games">Games</button>
+      <button class="tab" data-lib="restaurants">Restaurants</button>
+    </nav>
+
+    <div id="search-bar">
+      <input type="text" id="search-input" placeholder="Search or add..." autocomplete="off" spellcheck="false">
+      <button id="add-btn">Add</button>
+      <button id="bulk-add-btn" title="Bulk add multiple titles">Bulk</button>
+    </div>
+
+    <div id="autofill-results" class="hidden"></div>
+
+    <div id="filter-bar">
+      <div id="status-filters" class="filter-row"></div>
+      <div id="rating-filters" class="filter-row"></div>
+      <div id="tag-filters" class="filter-row"></div>
+      <div id="ownership-filters" class="filter-row hidden"></div>
+      <div id="cuisine-filters" class="filter-row hidden"></div>
+    </div>
+
+    <div id="sort-bar">
+      <label for="sort-select">Sort</label>
+      <select id="sort-select">
+        <option value="status">Status</option>
+        <option value="rating">Rating</option>
+        <option value="alpha">A–Z</option>
+      </select>
+      <div id="view-toggle">
+        <button id="view-list-btn" class="view-btn active" title="List view">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <line x1="3" y1="4" x2="13" y2="4"/>
+            <line x1="3" y1="8" x2="13" y2="8"/>
+            <line x1="3" y1="12" x2="13" y2="12"/>
+          </svg>
+        </button>
+        <button id="view-grid-btn" class="view-btn" title="Grid view">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="5" height="5"/>
+            <rect x="9" y="2" width="5" height="5"/>
+            <rect x="2" y="9" width="5" height="5"/>
+            <rect x="9" y="9" width="5" height="5"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <main id="list"></main>
+
+    <!-- Detail overlay -->
+    <div id="overlay" class="hidden">
+      <div id="overlay-bg"></div>
+      <div id="panel">
+        <div id="panel-content"></div>
+      </div>
+    </div>
+
+    <!-- Bulk add overlay -->
+    <div id="bulk-overlay" class="hidden">
+      <div id="bulk-overlay-bg"></div>
+      <div id="bulk-panel">
+        <div id="bulk-panel-content">
+          <div class="field-group">
+            <label class="field-label">Bulk add — one title per line</label>
+            <textarea id="bulk-textarea" class="field-input bulk-textarea"
+                      placeholder="Title 1&#10;Title 2&#10;Title 3"></textarea>
+          </div>
+          <div class="detail-actions">
+            <button class="btn-save" id="bulk-add-all">Add all</button>
+            <button class="btn-delete" id="bulk-cancel">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div id="toast"></div>
+
+  </div>
+
+  <script src="db.js"></script>
+  <script src="status.js"></script>
+  <script src="theme.js"></script>
+  <script src="filter.js"></script>
+  <script src="sort.js"></script>
+  <script src="api.js"></script>
+  <script src="ui.js"></script>
+  <script src="testdata.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
