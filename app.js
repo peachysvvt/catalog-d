@@ -116,9 +116,14 @@ function _bindEvents() {
   // Close detail overlay
   document.getElementById('overlay-bg').addEventListener('click', closeDetail);
 
+  // Image picker close
+  document.getElementById('img-picker-bg').addEventListener('click', _closeImagePicker);
+  document.getElementById('img-picker-close').addEventListener('click', _closeImagePicker);
+
   // Escape closes whichever panel is open
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
+      _closeImagePicker();
       closeDetail();
       _closeBulkAdd();
     }

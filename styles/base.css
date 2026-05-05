@@ -714,6 +714,128 @@ textarea {
   color: #c06060;
 }
 
+/* ---- IMAGE FIELD ROW ---- */
+
+.image-field-row {
+  display: flex;
+  gap: 6px;
+}
+
+.image-field-row .field-input {
+  flex: 1;
+}
+
+.btn-search-image {
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: all 0.1s;
+}
+
+.btn-search-image:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* ---- IMAGE PICKER ---- */
+
+#img-picker-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 150;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+#img-picker-overlay.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#img-picker-overlay.hidden {
+  display: none;
+}
+
+#img-picker-bg {
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-bg);
+  cursor: pointer;
+}
+
+#img-picker {
+  position: relative;
+  width: 90%;
+  max-width: 380px;
+  max-height: 70vh;
+  background: var(--surface-panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+#img-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+#img-picker-close {
+  color: var(--text-dim);
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 4px;
+  transition: color 0.1s;
+}
+
+#img-picker-close:hover {
+  color: var(--text);
+}
+
+#img-picker-results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 12px;
+  overflow-y: auto;
+}
+
+.img-picker-thumb {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 3px;
+  border: 2px solid transparent;
+  display: block;
+  transition: border-color 0.1s;
+}
+
+.img-picker-thumb:hover {
+  border-color: var(--accent);
+}
+
+.img-picker-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
 /* ---- TOAST ---- */
 
 #toast {

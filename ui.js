@@ -105,7 +105,7 @@ function _itemHTML(item) {
   const tagsStr = item.tags && item.tags.length
     ? `<div class="item-tags">${esc(item.tags.join(', '))}</div>`
     : '';
-  const thumb = item.image
+  const thumb = (item.image && _lib !== 'restaurants')
     ? `<img class="item-thumb" src="${esc(item.image)}" alt="" loading="lazy">`
     : `<div class="item-thumb-placeholder">${esc((item.title || '?').charAt(0).toUpperCase())}</div>`;
   return `
@@ -120,7 +120,7 @@ function _itemHTML(item) {
 
 function _cardHTML(item) {
   const stars = item.rating ? '★'.repeat(item.rating) : '';
-  const poster = item.image
+  const poster = (item.image && _lib !== 'restaurants')
     ? `<img class="card-img" src="${esc(item.image)}" alt="${esc(item.title)}" loading="lazy">`
     : `<div class="card-img-placeholder">${esc((item.title || '?').charAt(0).toUpperCase())}</div>`;
   return `
@@ -259,6 +259,16 @@ function _buildDetailHTML(item) {
              placeholder="Italian, Japanese, ...">
     </div>` : '';
 
+  const imageHTML = !isRestaurant ? `
+    <div class="field-group">
+      <label class="field-label">Cover art</label>
+      <div class="image-field-row">
+        <input type="text" class="field-input" id="detail-image"
+               value="${esc(item.image || '')}" placeholder="https://...">
+        <button class="btn-search-image" id="search-image-btn">Search</button>
+      </div>
+    </div>` : '';
+
   return `
     <div class="field-group">
       <label class="field-label" for="detail-title">Title</label>
@@ -297,12 +307,7 @@ function _buildDetailHTML(item) {
       <textarea class="field-input" id="detail-notes" rows="3">${esc(item.notes || '')}</textarea>
     </div>
 
-    <div class="field-group">
-      <label class="field-label" for="detail-image">Cover art URL</label>
-      <input type="text" class="field-input" id="detail-image"
-             value="${esc(item.image || '')}"
-             placeholder="https://...">
-    </div>
+    ${imageHTML}
 
     ${ownershipHTML}
     ${cuisineHTML}
@@ -336,6 +341,14 @@ function _bindDetailEvents(item) {
       btn.classList.add('active');
     });
   });
+
+  const searchImageBtn = document.getElementById('search-image-btn');
+  if (searchImageBtn) {
+    searchImageBtn.addEventListener('click', async () => {
+      const title = document.getElementById('detail-title').value.trim() || item.title;
+      await _openImagePicker(title);
+    });
+  }
 
   document.getElementById('detail-save').addEventListener('click', async () => {
     const updated = _gatherFields(item);
@@ -388,6 +401,43 @@ function _gatherFields(item) {
   }
 
   return updated;
+}
+
+// ---- IMAGE PICKER ----
+
+async function _openImagePicker(title) {
+  const overlay = document.getElementById('img-picker-overlay');
+  const resultsEl = document.getElementById('img-picker-results');
+  resultsEl.innerHTML = '<div class="img-picker-msg">Searching…</div>';
+  overlay.classList.remove('hidden');
+  requestAnimationFrame(() => overlay.classList.add('visible'));
+
+  const results = await autofillSearch(_lib, title);
+  const withImages = (results || []).filter(r => r.image);
+
+  if (!withImages.length) {
+    resultsEl.innerHTML = '<div class="img-picker-msg">No images found</div>';
+    return;
+  }
+
+  resultsEl.innerHTML = withImages.map(r =>
+    `<img class="img-picker-thumb" src="${esc(r.image)}" alt="${esc(r.title)}" data-url="${esc(r.image)}" loading="lazy">`
+  ).join('');
+
+  resultsEl.querySelectorAll('.img-picker-thumb').forEach(img => {
+    img.addEventListener('click', () => {
+      const urlInput = document.getElementById('detail-image');
+      if (urlInput) urlInput.value = img.dataset.url;
+      _closeImagePicker();
+    });
+  });
+}
+
+function _closeImagePicker() {
+  const overlay = document.getElementById('img-picker-overlay');
+  if (!overlay || overlay.classList.contains('hidden')) return;
+  overlay.classList.remove('visible');
+  setTimeout(() => overlay.classList.add('hidden'), 200);
 }
 
 // ---- AUTOFILL ----
