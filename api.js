@@ -32,7 +32,7 @@ async function searchGoogleBooks(query) {
     const data = await res.json();
     return (data.items || []).slice(0, 6).map(r => ({
       title: r.volumeInfo?.title || '',
-      image: r.volumeInfo?.imageLinks?.thumbnail || ''
+      image: (r.volumeInfo?.imageLinks?.thumbnail || '').replace('http://', 'https://')
     })).filter(r => r.title);
   } catch { return []; }
 }
