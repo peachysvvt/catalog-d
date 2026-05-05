@@ -3,26 +3,26 @@
    --accent is set dynamically by JS (theme.js) per library
    ============================================================ */
 
-/* ---- PINK THEME (day) ---- */
+/* ---- PINK THEME (warm day) ---- */
 body.theme-pink {
-  --bg:           #fafafa;
-  --surface:      #f2f2f2;
-  --surface-panel:#ffffff;
-  --text:         #1a1a1a;
-  --text-dim:     rgba(26, 26, 26, 0.48);
-  --border:       #e0e0e0;
-  --overlay-bg:   rgba(0, 0, 0, 0.28);
+  --bg:           #fdf8f3;
+  --surface:      #f5ede4;
+  --surface-panel:#fffaf7;
+  --text:         #2c1f18;
+  --text-dim:     rgba(44, 31, 24, 0.45);
+  --border:       #e8d8cc;
+  --overlay-bg:   rgba(44, 31, 24, 0.35);
   --accent:       #d08080; /* default, overridden by JS */
 }
 
 /* ---- BLUE THEME (night) ---- */
 body.theme-blue {
-  --bg:           #0d0f18;
-  --surface:      #141724;
-  --surface-panel:#161a28;
-  --text:         #dde0ea;
-  --text-dim:     rgba(221, 224, 234, 0.45);
-  --border:       #222538;
+  --bg:           #12151f;
+  --surface:      #1b2035;
+  --surface-panel:#1f2640;
+  --text:         #e4e2f0;
+  --text-dim:     rgba(228, 226, 240, 0.45);
+  --border:       #2a3050;
   --overlay-bg:   rgba(0, 0, 0, 0.62);
   --accent:       #7aaad8; /* default, overridden by JS */
 }
